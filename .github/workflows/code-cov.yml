@@ -8,14 +8,18 @@ on:
       - '*' 
 
 jobs:
-  build:
+  badge_job:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - id: date
+        run: echo "##[set-output name=data;]$(date)"
+      - name: Time badge
+        uses: RubbaBoy/BYOB@v1.1.0
         with:
-          submodules: recursive
+          NAME: time
+          LABEL: 'Updated at'
+          STATUS: ${{ steps.date.outputs.data }}
+          COLOR: 00EEFF
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Code coverage report
-        run: echo '10'
 
