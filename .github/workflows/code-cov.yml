@@ -1,0 +1,21 @@
+# Code coverage information
+
+name: Code-Coverage
+
+on:
+  push:
+    branches:
+      - * 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Code coverage report
+        run: echo '10'
+
