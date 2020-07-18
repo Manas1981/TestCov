@@ -1,1 +1,1 @@
-{"time":{"label":"Updated at","status":"Sat Jul 18 06:48:56 UTC 2020","color":"00EEFF"},"machine":{"label":"Hostname","status":"${passing}","color":"FFC0CB"},"size":{"label":"Repo Size","status":"40K","color":"00FF00"}}
+{"time":{"label":"Updated at","status":"Sat Jul 18 06:48:56 UTC 2020","color":"00EEFF"},"machine":{"label":"Hostname","status":"${passing}","color":"FFC0CB"},"size":{"label":"Repo Size","status":"${40}","color":"00FF00"}}
