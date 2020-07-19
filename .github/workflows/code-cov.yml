@@ -18,5 +18,5 @@ jobs:
       - name: Get color
         run: echo 'The selected color is' $SELECTED_COLOR
       - name: Set & Get cv
-        run: echo '::set-env name={GITHUB_TOKEN}::{50}'
+        run: echo '::set-env name={GITHUB_TOKEN}::50'
              echo 'The cv is' $GITHUB_TOKEN
