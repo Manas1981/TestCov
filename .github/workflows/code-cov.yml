@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Testing CV
     with:
-        GITHUB_TOKEN: 60
+        ss: 60
     steps:
       - id: date
         run: echo "##[set-output name=data;]$(date)"
@@ -18,5 +18,5 @@ jobs:
       - name: Get color
         run: echo 'The selected color is' $SELECTED_COLOR
       - name: Set & Get cv
-        run: echo '::set-output name={GITHUB_TOKEN}::50'
-             echo 'The cv is' $GITHUB_TOKEN
+        run: echo '::set-output name={ss}::50'
+             echo 'The cv is' $ss
