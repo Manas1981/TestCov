@@ -3,7 +3,7 @@ on: [push]
 jobs:
   badge_job:
     runs-on: ubuntu-latest
-    name: Testing BYOB
+    name: Testing CV
     env:
         GITHUB_TOKEN: 60
     steps:
@@ -17,7 +17,6 @@ jobs:
         run: echo '::set-env name=SELECTED_COLOR::green'
       - name: Get color
         run: echo 'The selected color is' $SELECTED_COLOR
-      - name: Set cv
+      - name: Set & Get cv
         run: echo '::set-output name={GITHUB_TOKEN}::{50}'
-      - name: Get cv
-        run: echo 'The cv is' $GITHUB_TOKEN
+             echo 'The cv is' $GITHUB_TOKEN
