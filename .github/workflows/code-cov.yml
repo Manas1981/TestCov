@@ -12,10 +12,9 @@ jobs:
       - id: size
         run: echo "##[set-output name=50;]"
       - name: Size Badge
+        uses: actions/checkout@v2
         env:
         echo "::set-env name=CV::55"
-        FIRST_NAME: Mona
-        uses: actions/checkout@v2
         with:
           NAME: size
           LABEL: 'Repo Size'
