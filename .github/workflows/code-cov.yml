@@ -16,4 +16,7 @@ jobs:
       - name: Get color
         run: echo 'The selected color is' $SELECTED_COLOR
       - name: Set cv
-        run: echo '::set-output name={secrets.CODECOV_TOKEN}::{50}'
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo '::set-output name={GITHUB_TOKEN}::{50}'
+      - name: Get cv
+        run: echo 'The cv is' $GITHUB_TOKEN
