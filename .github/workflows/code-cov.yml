@@ -22,4 +22,4 @@ jobs:
           STATUS: ${{ steps.size.outputs.data }}
           COLOR: 00FF00
           GITHUB_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-	  secrets.CODECOV_TOKEN: 45
+          secrets.CODECOV_TOKEN: 45
