@@ -4,8 +4,7 @@ jobs:
   badge_job:
     runs-on: ubuntu-latest
     name: Testing CV
-    with:
-        ss: 60
+
     steps:
       - id: date
         run: echo "##[set-output name=data;]$(date)"
