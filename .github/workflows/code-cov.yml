@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Testing BYOB
     env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: 60
     steps:
       - id: date
         run: echo "##[set-output name=data;]$(date)"
