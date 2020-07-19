@@ -17,5 +17,5 @@ jobs:
       - name: Get color
         run: echo 'The selected color is' $SELECTED_COLOR
       - name: Set & Get cv
-        run: echo '::set-output name={ss}::50'
+        run: echo '::set-output name=ss::50'
              echo 'The cv is' $ss
