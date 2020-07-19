@@ -12,9 +12,14 @@ jobs:
       - id: size
         run: echo "##[set-output name=50;]"
       - name: Size Badge
+	env:
+	echo "::set-env name=CV::55"
+      	FIRST_NAME: Mona
+        uses: actions/checkout@v2
         with:
           NAME: size
           LABEL: 'Repo Size'
           STATUS: ${{ steps.size.outputs.data }}
           COLOR: 00FF00
           GITHUB_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+	  secrets.CODECOV_TOKEN: 45
