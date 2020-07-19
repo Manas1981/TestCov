@@ -12,7 +12,7 @@ jobs:
       - id: size
         run: echo "##[set-output name=50;]"
       - name: Size Badge
-	env:
+        env:
 	echo "::set-env name=CV::55"
       	FIRST_NAME: Mona
         uses: actions/checkout@v2
