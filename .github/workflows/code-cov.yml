@@ -4,7 +4,7 @@ jobs:
   badge_job:
     runs-on: ubuntu-latest
     name: Testing CV
-    env:
+    with:
         GITHUB_TOKEN: 60
     steps:
       - id: date
@@ -18,5 +18,5 @@ jobs:
       - name: Get color
         run: echo 'The selected color is' $SELECTED_COLOR
       - name: Set & Get cv
-        run: echo '::set-env name={GITHUB_TOKEN}::50'
+        run: echo '::set-output name={GITHUB_TOKEN}::50'
              echo 'The cv is' $GITHUB_TOKEN
