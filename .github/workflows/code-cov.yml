@@ -1,8 +1,8 @@
-name: comment-on-pr example
+name: Code coverage comment on pr
 on: pull_request
 jobs:
   example:
-    name: sample comment
+    name: Code coverage comment
     runs-on: ubuntu-latest
     steps:
       - name: comment PR
@@ -12,3 +12,40 @@ jobs:
         with:
           msg: "Check out this message!"
           check_for_duplicate_msg: false  # OPTIONAL
+
+name: Share data between jobs
+
+on: [push]
+
+jobs:
+  job_1:
+    name: Add 3 and 7
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        run: |
+          expr 3 + 7 > math-homework.txt
+      - name: Upload math result for job 1
+        uses: actions/upload-artifact@v2
+        with:
+          name: homework
+          path: math-homework.txt
+
+  job_2:
+    name: Multiply by 9
+    needs: job_1
+    runs-on: windows-latest
+    steps:
+      - name: Download math result for job 1
+        uses: actions/download-artifact@v2
+        with:
+          name: homework
+      - shell: bash
+        run: |
+          value=`cat math-homework.txt`
+          expr $value \* 9 > math-homework.txt
+      - name: Upload math result for job 2
+        uses: actions/upload-artifact@v2
+        with:
+          name: homework
+          path: math-homework.txt
