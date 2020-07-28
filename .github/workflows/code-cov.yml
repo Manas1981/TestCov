@@ -14,7 +14,6 @@ jobs:
           check_for_duplicate_msg: false  # OPTIONAL
 
 on: [push]
-
   job_1:
     name: Add 3 and 7
     runs-on: ubuntu-latest
