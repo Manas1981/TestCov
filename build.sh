@@ -71,6 +71,8 @@ done
 
 if [ -n "$RUN_CEEDLING" ]; then
     cd $BASE
+    pwd
+    ls
     tar -czf code-cov-report.tar.gz code-cov
     rm -f cove.info
     rm -f cove1.info
