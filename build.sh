@@ -71,6 +71,7 @@ done
 
 if [ -n "$RUN_CEEDLING" ]; then
     cd $BASE
+    echo "run"
     pwd
     ls
     tar -czf code-cov-report.tar.gz code-cov
