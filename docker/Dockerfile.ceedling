@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     gperf \
     lcov
 
-ADD build.sh /opt/esp/
+ADD build.sh /opt/TestCov/
 
 WORKDIR /opt/TestCov
 
