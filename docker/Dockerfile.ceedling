@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     lcov
 
 ADD build.sh /opt/TestCov/
-ADD code-cov /opt/TestCov/
+ADD code-cov /opt/TestCov/code-cov
 
 WORKDIR /opt/TestCov
 
