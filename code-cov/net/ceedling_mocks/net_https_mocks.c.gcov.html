@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - cove1.info - net/ceedling_mocks/net_https_mocks.c</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">net/ceedling_mocks</a> - net_https_mocks.c<span style="font-size: 80%;"> (source / <a href="net_https_mocks.c.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">cove1.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryHi">94.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-07-26 10:04:18</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &lt;stdint.h&gt;</a>
+<span class="lineNum">       2 </span>            : #include &lt;string.h&gt;
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : #include &quot;net_https.h&quot;
+<span class="lineNum">       5 </span>            : #include &quot;net_https_mocks.h&quot;
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : ////////////////////////////////
+<span class="lineNum">       8 </span>            : // Global variables
+<span class="lineNum">       9 </span>            : ////////////////////////////////
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : struct ahttps_sendobj s;
+<span class="lineNum">      12 </span>            : struct net_https_mock_flags_s net_https_mock_flags;
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : ////////////////////////////////
+<span class="lineNum">      15 </span>            : // Mock functions
+<a name="16"><span class="lineNum">      16 </span>            : ////////////////////////////////</a>
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span><span class="lineCov">         66 : struct ahttps_sendobj* net_https_sendobj_alloc(void) {</span>
+<span class="lineNum">      19 </span><span class="lineCov">         66 :     if (NET_HTTPS_SENDOBJ_ALLOC_FAIL == net_https_mock_flags.net_https_sendobj_alloc) {</span>
+<span class="lineNum">      20 </span><span class="lineCov">         12 :         return NULL;</span>
+<span class="lineNum">      21 </span><span class="lineCov">         54 :     } else if (NET_HTTPS_SENDOBJ_ALLOC_PASS == net_https_mock_flags.net_https_sendobj_alloc) {</span>
+<span class="lineNum">      22 </span><span class="lineCov">         54 :         return &amp;s;</span>
+<span class="lineNum">      23 </span>            :     }
+<a name="24"><span class="lineNum">      24 </span><span class="lineNoCov">          0 :     return NULL;</span></a>
+<span class="lineNum">      25 </span>            : }
+<span class="lineNum">      26 </span><span class="lineCov">         54 : void net_https_sendobj_static(struct ahttps_sendobj* s,</span>
+<span class="lineNum">      27 </span>            :         enum app_net_https_type type, char* url, uint8_t* buf, size_t len) {
+<span class="lineNum">      28 </span><span class="lineCov">         54 :     s-&gt;type = type;</span>
+<span class="lineNum">      29 </span><span class="lineCov">         54 :     s-&gt;url = url;</span>
+<span class="lineNum">      30 </span><span class="lineCov">         54 :     s-&gt;buffer = buf;</span>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">         54 :     s-&gt;buflen = len;</span></a>
+<span class="lineNum">      32 </span><span class="lineCov">         54 : }</span>
+<span class="lineNum">      33 </span><span class="lineCov">         54 : int net_https_sendobj_asprintf(struct ahttps_sendobj* s,</span>
+<span class="lineNum">      34 </span>            :         char* fmt, ...) {
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">         54 :     return 0;</span></a>
+<span class="lineNum">      36 </span>            : }
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">         12 : void net_https_sendobj_free(void* ptr) {}</span></a>
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span><span class="lineCov">         12 : int netCallbackFunctionMock(void *data, size_t len, void *ctx) {</span>
+<span class="lineNum">      40 </span><span class="lineCov">         12 :     return s.done_callback(data, len, ctx);</span>
+<span class="lineNum">      41 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
