@@ -73,3 +73,4 @@ if [ -n "$RUN_CEEDLING" ]; then
     cp code-cov-report.tar.gz /opt/output/.
     cd $BASE
 fi
+
