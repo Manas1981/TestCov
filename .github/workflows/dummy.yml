@@ -42,6 +42,14 @@ jobs:
         with:
           name: code-cov-report.tar.gz
           path: ${{ env.OUTPUT_DIR }}/code-cov-report.tar.gz
+
+      - name: Store code cov output
+        # TODO: use v2 release once it is available
+        uses: actions/upload-artifact@v2-preview
+        if: (endsWith(matrix.bundle, 'ceedling'))
+        env:
+          OUTPUT_DIR: docker/build/ceedling
+        with:
           name: out.txt
           path: ${{ env.OUTPUT_DIR }}/out.txt
 
