@@ -81,6 +81,7 @@ jobs:
         env:
           OUTPUT_DIR: docker/build/ceedling
         run: |
+          cat ${{ env.OUTPUT_DIR }}/out.txt
           jq -nc '{"body": cat ${{ env.OUTPUT_DIR }}/out.txt}' | \
           curl -X POST -d @ \
             -H "Content-Type: application/json" \
