@@ -12,6 +12,15 @@ env:
   BUILD_ID: ${{ github.run_number }}
   PROJECT_ID: ${{ github.workflow }}
 
+inputs:
+  msg: 
+    description: Comment's message
+    required: true
+  check_for_duplicate_msg:
+    description: If false, action doesn't check for duplicate msg.
+    required: false
+    default: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -59,9 +68,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT_DIR: docker/build/ceedling
-        run: |
-          pwd
-          ls
         with:
           msg: 'cat ${{ env.OUTPUT_DIR }}/out.txt'
           check_for_duplicate_msg: false  # OPTIONAL
