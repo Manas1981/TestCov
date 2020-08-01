@@ -72,6 +72,7 @@ jobs:
         env:
           OUTPUT_DIR: docker/build/ceedling
         run: |
+          cat ${{ env.OUTPUT_DIR }}/out.txt
           curl -d "@${{ env.OUTPUT_DIR }}/out.txt" -X POST --data-binary \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
