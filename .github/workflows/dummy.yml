@@ -71,7 +71,7 @@ jobs:
         env:
           OUTPUT_DIR: docker/build/ceedling
         run: |
-          jq -R -f ${{ env.OUTPUT_DIR }}/out.txt | \
+          cat ${{ env.OUTPUT_DIR }}/out.txt | \
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
