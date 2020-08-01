@@ -59,6 +59,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT_DIR: docker/build/ceedling
+        run: |
+          pwd
+          ls
         with:
           msg: 'cat ${{ env.OUTPUT_DIR }}/out.txt'
           check_for_duplicate_msg: false  # OPTIONAL
