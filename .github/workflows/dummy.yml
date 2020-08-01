@@ -62,6 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT_DIR: docker/build/ceedling
         with:
-          msg: "Check code cov message!"
-          check_for_duplicate_msg: true  # OPTIONAL
+          msg: "Check code cov message1!"
+          msg: "Check code cov message2!"
+          check_for_duplicate_msg: false  # OPTIONAL
 
