@@ -79,13 +79,17 @@ jobs:
 
 #          curl -X POST -d @out1.json \
 #            -H "Content-Type: application/json" \
+#          curl --form "fileupload=@out1.json" \
+
+#          jq -nc '{"body": "test comment"}' | \
+#          curl -sL  -X POST -d @- \
 
       - name: Add commit comment
         env:
           OUTPUT_DIR: docker/build/ceedling
         run: |
-          cat out1.json
-          curl --form "fileupload=@out1.json" \
+          cat outd.txt
+          curl --data "$(cat outd.txt)" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
 
