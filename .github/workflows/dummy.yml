@@ -67,11 +67,12 @@ jobs:
 #            - Created by [commit-comment][1]
 
 #          cat ${{ env.OUTPUT_DIR }}/out.txt | jq -nc '{"body": "test comment"}' | \
+#          curl -sL  -X PUT -d @${{ env.OUTPUT_DIR }}/out.txt \
       - name: Add commit comment
         env:
           OUTPUT_DIR: docker/build/ceedling
         run: |
-          curl -sL  -X PUT -d @${{ env.OUTPUT_DIR }}/out.txt \
+          curl -d "@${{ env.OUTPUT_DIR }}/out.txt" -X POST \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
