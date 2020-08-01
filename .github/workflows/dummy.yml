@@ -67,8 +67,11 @@ jobs:
 #            - Created by [commit-comment][1]
 
       - name: Add commit comment
+        env:
+          OUTPUT_DIR: docker/build/ceedling
         run: |
-          jq -nc '{"body": "test comment"}' | \
+#          cat ${{ env.OUTPUT_DIR }}/out.txt | jq -nc '{"body": "test comment"}' | \
+          jq -R -f ${{ env.OUTPUT_DIR }}/out.txt | \
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
