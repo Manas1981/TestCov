@@ -89,7 +89,7 @@ jobs:
           OUTPUT_DIR: docker/build/ceedling
         run: |
           cat outd.txt
-          curl --data "$(cat outd.txt)" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
+          curl -XPOST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d "LCOV - code coverage report
+          Lines: 51%
+          " "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
 
