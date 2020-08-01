@@ -83,7 +83,7 @@ jobs:
         run: |
           cat outd.txt
           jq -nc '{"body": outd.txt}' | \
-          curl -X POST -d @ \
+          curl -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
