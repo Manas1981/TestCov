@@ -66,11 +66,11 @@ jobs:
 #            - With GitHub **Markdown** :sparkles:
 #            - Created by [commit-comment][1]
 
+#          cat ${{ env.OUTPUT_DIR }}/out.txt | jq -nc '{"body": "test comment"}' | \
       - name: Add commit comment
         env:
           OUTPUT_DIR: docker/build/ceedling
         run: |
-#          cat ${{ env.OUTPUT_DIR }}/out.txt | jq -nc '{"body": "test comment"}' | \
           jq -R -f ${{ env.OUTPUT_DIR }}/out.txt | \
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
