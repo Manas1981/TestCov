@@ -71,7 +71,7 @@ jobs:
         env:
           OUTPUT_DIR: docker/build/ceedling
         run: |
-          curl -sL  -X POST -d @${{ env.OUTPUT_DIR }}/out.txt \
+          curl -sL  -X PUT -d @${{ env.OUTPUT_DIR }}/out.txt \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
