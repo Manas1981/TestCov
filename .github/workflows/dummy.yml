@@ -54,8 +54,8 @@ jobs:
           path: ${{ env.OUTPUT_DIR }}/out.txt
 
 # msg: "Check code cov message!"
+#        uses: unsplash/comment-on-pr@master
       - name: comment PR
-        uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT_DIR: docker/build/ceedling
