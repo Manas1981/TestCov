@@ -85,7 +85,7 @@ jobs:
           OUTPUT_DIR: docker/build/ceedling
         run: |
           cat out1.json
-          curl --form "fileupload=@out1.json"
+          curl --form "fileupload=@out1.json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
 
