@@ -67,7 +67,6 @@ jobs:
 #            - Created by [commit-comment][1]
 
       - name: Add commit comment
-        uses: actions/checkout@v1
         run: |
           jq -nc '{"body": "test comment"}' | \
           curl -sL  -X POST -d @- \
