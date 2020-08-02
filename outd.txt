@@ -1,1 +1,1 @@
-{"body":"   LCOV - code coverage report\nView::Hit '   ' Total '    ' Coverage\nLines:1911 3748  51.0 %\nFunctions: 192  345   55.7 %"}
+{"body":"   LCOV - code coverage report\nView::Hit '''''' Total '''''' Coverage\nLines:1911 3748  51.0 %\nFunctions: 192  345   55.7 %"}
