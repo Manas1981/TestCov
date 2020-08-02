@@ -1,2 +1,2 @@
-{"body":"LCOV - code coverage report
+{"body":"LCOV - code coverage report %0D%0A
 LCOV - code coverage report2"}
