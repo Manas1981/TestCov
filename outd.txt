@@ -1,1 +1,1 @@
-LCOV - code coverage report\n report 2
+{"body":"   LCOV - code coverage report\n   Current view:                                Hit  Total Coverage\n   Test:         cove.info           Lines:     1911 3748  51.0 %\n   Date:         2020-07-17 15:57:04 Functions: 192  345   55.7 %"}
