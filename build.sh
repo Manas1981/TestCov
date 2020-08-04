@@ -84,6 +84,7 @@ if [ -n "$RUN_CEEDLING" ]; then
     pwd
     ls
     bash parse-code-cov.sh
+    cp cov_out_file.txt /opt/output/.
     echo "parse code cove file end"
     pwd
     ls
