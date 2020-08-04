@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
 
 ADD build.sh /opt/TestCov/
 ADD code-cov /opt/TestCov/code-cov
-ADD parse-code-cov /opt/TestCov/
+ADD parse-code-cov.sh /opt/TestCov/
 
 WORKDIR /opt/TestCov
 
