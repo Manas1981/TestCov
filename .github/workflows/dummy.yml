@@ -51,7 +51,7 @@ jobs:
         env:
           OUTPUT_DIR: docker/build/ceedling
         with:
-          name: cov_out_file
+          name: cov_out_file.txt
           path: ${{ env.OUTPUT_DIR }}/cov_out_file.txt
 
 # msg: "Check code cov message!"
@@ -104,7 +104,7 @@ jobs:
       - name: Add commit comment
         uses: actions/download-artifact@v2-preview
         with:
-          name: cov_out_file
+          name: cov_out_file.txt
         env:
           OUTPUT_DIR: docker/build/ceedling
       - shell: bash
