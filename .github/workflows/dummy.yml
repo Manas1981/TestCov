@@ -105,6 +105,8 @@ jobs:
         env:
           OUTPUT_DIR: docker/build/ceedling
         run: |
+          pwd
+          ls
           cat cov_out_file.txt | \
           curl -XPOST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d@- \
           -H "Content-Type: application/json" \
