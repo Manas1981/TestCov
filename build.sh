@@ -78,15 +78,18 @@ if [ -n "$RUN_CEEDLING" ]; then
     rm -f cove.info
     rm -f cove1.info
     cp code-cov-report.tar.gz /opt/output/.
-    lynx --dump code-cov/index.html | grep 'LCOV' > out.txt
-    sed -i.bak -e '2d' out.txt
-    lynx --dump code-cov/index.html | grep 'Current view' >> out.txt
-    sed -i.bak 's/Current view: top level/Current view:          /g' out.txt
-    lynx --dump code-cov/index.html | grep 'Lines' >> out.txt
-    lynx --dump code-cov/index.html | grep 'Functions' >> out.txt
-    sed -i.bak -e '5d' out.txt
-    cp out.txt /opt/output/.
+
+    # Generate code coverage text file whose contents will be added to push comment
+    echo "parse code cove file"
+    pwd
+    ls
+    bash parse-code-cov.sh
+    echo "parse code cove file end"
+    pwd
+    ls
     cd $BASE
+    pwd
+    ls
 fi
 
 
