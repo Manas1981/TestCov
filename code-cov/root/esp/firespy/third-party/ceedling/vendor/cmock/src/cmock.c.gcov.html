@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - cove1.info - /root/esp/firespy/third-party/ceedling/vendor/cmock/src/cmock.c</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../../index.html">top level</a> - <a href="index.html">root/esp/firespy/third-party/ceedling/vendor/cmock/src</a> - cmock.c<span style="font-size: 80%;"> (source / <a href="cmock.c.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">cove1.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">58</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-07-26 10:01:55</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* ==========================================</a>
+<span class="lineNum">       2 </span>            :     CMock Project - Automatic Mock Generation for C
+<span class="lineNum">       3 </span>            :     Copyright (c) 2007 Mike Karlesky, Mark VanderVoord, Greg Williams
+<span class="lineNum">       4 </span>            :     [Released under MIT License. Please refer to license.txt for details]
+<span class="lineNum">       5 </span>            : ========================================== */
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #include &quot;unity.h&quot;
+<span class="lineNum">       8 </span>            : #include &quot;cmock.h&quot;
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : //public constants to be used by mocks
+<span class="lineNum">      11 </span>            : const char* CMockStringOutOfMemory = &quot;CMock has run out of memory. Please allocate more.&quot;;
+<span class="lineNum">      12 </span>            : const char* CMockStringCalledMore  = &quot;Called more times than expected.&quot;;
+<span class="lineNum">      13 </span>            : const char* CMockStringCalledLess  = &quot;Called less times than expected.&quot;;
+<span class="lineNum">      14 </span>            : const char* CMockStringCalledEarly = &quot;Called earlier than expected.&quot;;
+<span class="lineNum">      15 </span>            : const char* CMockStringCalledLate  = &quot;Called later than expected.&quot;;
+<span class="lineNum">      16 </span>            : const char* CMockStringCallOrder   = &quot;Called out of order.&quot;;
+<span class="lineNum">      17 </span>            : const char* CMockStringIgnPreExp   = &quot;IgnoreArg called before Expect.&quot;;
+<span class="lineNum">      18 </span>            : const char* CMockStringPtrPreExp   = &quot;ReturnThruPtr called before Expect.&quot;;
+<span class="lineNum">      19 </span>            : const char* CMockStringPtrIsNULL   = &quot;Pointer is NULL.&quot;;
+<span class="lineNum">      20 </span>            : const char* CMockStringExpNULL     = &quot;Expected NULL.&quot;;
+<span class="lineNum">      21 </span>            : const char* CMockStringMismatch    = &quot;Function called with unexpected argument value.&quot;;
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            : //private variables
+<span class="lineNum">      24 </span>            : #ifdef CMOCK_MEM_DYNAMIC
+<span class="lineNum">      25 </span>            : static unsigned char*         CMock_Guts_Buffer = NULL;
+<span class="lineNum">      26 </span>            : static CMOCK_MEM_INDEX_TYPE   CMock_Guts_BufferSize = CMOCK_MEM_ALIGN_SIZE;
+<span class="lineNum">      27 </span>            : static CMOCK_MEM_INDEX_TYPE   CMock_Guts_FreePtr;
+<span class="lineNum">      28 </span>            : #else
+<span class="lineNum">      29 </span>            : static CMOCK_MEM_INDEX_TYPE   CMock_Guts_BufferArray[(CMOCK_MEM_SIZE + CMOCK_MEM_INDEX_SIZE - 1) / CMOCK_MEM_INDEX_SIZE];
+<span class="lineNum">      30 </span>            : #define CMock_Guts_Buffer ((unsigned char*)CMock_Guts_BufferArray)
+<span class="lineNum">      31 </span>            : static CMOCK_MEM_INDEX_TYPE   CMock_Guts_BufferSize = CMOCK_MEM_SIZE + CMOCK_MEM_ALIGN_SIZE;
+<span class="lineNum">      32 </span>            : static CMOCK_MEM_INDEX_TYPE   CMock_Guts_FreePtr;
+<span class="lineNum">      33 </span>            : #endif
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : //-------------------------------------------------------
+<a name="36"><span class="lineNum">      36 </span>            : // CMock_Guts_MemNew</a>
+<span class="lineNum">      37 </span>            : //-------------------------------------------------------
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 : CMOCK_MEM_INDEX_TYPE CMock_Guts_MemNew(CMOCK_MEM_INDEX_TYPE size)</span>
+<span class="lineNum">      39 </span>            : {
+<span class="lineNum">      40 </span>            :   CMOCK_MEM_INDEX_TYPE index;
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            :   //verify arguments valid (we must be allocating space for at least 1 byte, and the existing chain must be in memory somewhere)
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :   if (size &lt; 1)</span>
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     return CMOCK_GUTS_NONE;</span>
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            :   //verify we have enough room
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :   size = size + CMOCK_MEM_INDEX_SIZE;</span>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :   if (size &amp; CMOCK_MEM_ALIGN_MASK)</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     size = (size + CMOCK_MEM_ALIGN_MASK) &amp; ~CMOCK_MEM_ALIGN_MASK;</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :   if ((CMock_Guts_BufferSize - CMock_Guts_FreePtr) &lt; size)</span>
+<span class="lineNum">      51 </span>            :   {
+<span class="lineNum">      52 </span>            : #ifndef CMOCK_MEM_DYNAMIC
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :     return CMOCK_GUTS_NONE; // nothing we can do; our static buffer is out of memory</span>
+<span class="lineNum">      54 </span>            : #else
+<span class="lineNum">      55 </span>            :     // our dynamic buffer does not have enough room; request more via realloc()
+<span class="lineNum">      56 </span>            :     CMOCK_MEM_INDEX_TYPE new_buffersize = CMock_Guts_BufferSize + CMOCK_MEM_SIZE + size;
+<span class="lineNum">      57 </span>            :     unsigned char* new_buffer = realloc(CMock_Guts_Buffer, (size_t)new_buffersize);
+<span class="lineNum">      58 </span>            :     if (new_buffer == NULL)
+<span class="lineNum">      59 </span>            :       return CMOCK_GUTS_NONE; // realloc() failed; out of memory
+<span class="lineNum">      60 </span>            :     CMock_Guts_Buffer = new_buffer;
+<span class="lineNum">      61 </span>            :     CMock_Guts_BufferSize = new_buffersize;
+<span class="lineNum">      62 </span>            : #endif
+<span class="lineNum">      63 </span>            :   }
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            :   //determine where we're putting this new block, and init its pointer to be the end of the line
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :   index = CMock_Guts_FreePtr + CMOCK_MEM_INDEX_SIZE;</span>
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :   *(CMOCK_MEM_INDEX_TYPE*)(&amp;CMock_Guts_Buffer[CMock_Guts_FreePtr]) = CMOCK_GUTS_NONE;</span>
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :   CMock_Guts_FreePtr += size;</span>
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :   return index;</span>
+<span class="lineNum">      71 </span>            : }
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            : //-------------------------------------------------------
+<a name="74"><span class="lineNum">      74 </span>            : // CMock_Guts_MemChain</a>
+<span class="lineNum">      75 </span>            : //-------------------------------------------------------
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 : CMOCK_MEM_INDEX_TYPE CMock_Guts_MemChain(CMOCK_MEM_INDEX_TYPE root_index, CMOCK_MEM_INDEX_TYPE obj_index)</span>
+<span class="lineNum">      77 </span>            : {
+<span class="lineNum">      78 </span>            :   CMOCK_MEM_INDEX_TYPE index;
+<span class="lineNum">      79 </span>            :   void* root;
+<span class="lineNum">      80 </span>            :   void* obj;
+<span class="lineNum">      81 </span>            :   void* next;
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :   if (root_index == CMOCK_GUTS_NONE)</span>
+<span class="lineNum">      84 </span>            :   {
+<span class="lineNum">      85 </span>            :     //if there is no root currently, we return this object as the root of the chain
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :     return obj_index;</span>
+<span class="lineNum">      87 </span>            :   }
+<span class="lineNum">      88 </span>            :   else
+<span class="lineNum">      89 </span>            :   {
+<span class="lineNum">      90 </span>            :     //reject illegal nodes
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :     if ((root_index &lt; CMOCK_MEM_ALIGN_SIZE) || (root_index &gt;= CMock_Guts_FreePtr))</span>
+<span class="lineNum">      92 </span>            :     {
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :       return CMOCK_GUTS_NONE;</span>
+<span class="lineNum">      94 </span>            :     }
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :     if ((obj_index &lt; CMOCK_MEM_ALIGN_SIZE) || (obj_index &gt;= CMock_Guts_FreePtr))</span>
+<span class="lineNum">      96 </span>            :     {
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :       return CMOCK_GUTS_NONE;</span>
+<span class="lineNum">      98 </span>            :     }
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span><span class="lineNoCov">          0 :     root = (void*)(&amp;CMock_Guts_Buffer[root_index]);</span>
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :     obj  = (void*)(&amp;CMock_Guts_Buffer[obj_index]);</span>
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span>            :     //find the end of the existing chain and add us
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :     next = root;</span>
+<span class="lineNum">     105 </span>            :     do {
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :       index = *(CMOCK_MEM_INDEX_TYPE*)((CMOCK_MEM_PTR_AS_INT)next - CMOCK_MEM_INDEX_SIZE);</span>
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :       if (index &gt;= CMock_Guts_FreePtr)</span>
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 :         return CMOCK_GUTS_NONE;</span>
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :       if (index &gt; 0)</span>
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :         next = (void*)(&amp;CMock_Guts_Buffer[index]);</span>
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :     } while (index &gt; 0);</span>
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :     *(CMOCK_MEM_INDEX_TYPE*)((CMOCK_MEM_PTR_AS_INT)next - CMOCK_MEM_INDEX_SIZE) = (CMOCK_MEM_INDEX_TYPE)((CMOCK_MEM_PTR_AS_INT)obj - (CMOCK_MEM_PTR_AS_INT)CMock_Guts_Buffer);</span>
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :     return root_index;</span>
+<span class="lineNum">     114 </span>            :   }
+<span class="lineNum">     115 </span>            : }
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span>            : //-------------------------------------------------------
+<a name="118"><span class="lineNum">     118 </span>            : // CMock_Guts_MemNext</a>
+<span class="lineNum">     119 </span>            : //-------------------------------------------------------
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 : CMOCK_MEM_INDEX_TYPE CMock_Guts_MemNext(CMOCK_MEM_INDEX_TYPE previous_item_index)</span>
+<span class="lineNum">     121 </span>            : {
+<span class="lineNum">     122 </span>            :   CMOCK_MEM_INDEX_TYPE index;
+<span class="lineNum">     123 </span>            :   void* previous_item;
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span>            :   //There is nothing &quot;next&quot; if the pointer isn't from our buffer
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :   if ((previous_item_index &lt; CMOCK_MEM_ALIGN_SIZE) || (previous_item_index  &gt;= CMock_Guts_FreePtr))</span>
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 :     return CMOCK_GUTS_NONE;</span>
+<span class="lineNum">     128 </span><span class="lineNoCov">          0 :   previous_item = (void*)(&amp;CMock_Guts_Buffer[previous_item_index]);</span>
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span>            :   //if the pointer is good, then use it to look up the next index
+<span class="lineNum">     131 </span>            :   //(we know the first element always goes in zero, so NEXT must always be &gt; 1)
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :   index = *(CMOCK_MEM_INDEX_TYPE*)((CMOCK_MEM_PTR_AS_INT)previous_item - CMOCK_MEM_INDEX_SIZE);</span>
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :   if ((index &gt; 1) &amp;&amp; (index &lt; CMock_Guts_FreePtr))</span>
+<span class="lineNum">     134 </span><span class="lineNoCov">          0 :     return index;</span>
+<span class="lineNum">     135 </span>            :   else
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :     return CMOCK_GUTS_NONE;</span>
+<span class="lineNum">     137 </span>            : }
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            : //-------------------------------------------------------
+<a name="140"><span class="lineNum">     140 </span>            : // CMock_Guts_MemEndOfChain</a>
+<span class="lineNum">     141 </span>            : //-------------------------------------------------------
+<span class="lineNum">     142 </span><span class="lineNoCov">          0 : CMOCK_MEM_INDEX_TYPE CMock_Guts_MemEndOfChain(CMOCK_MEM_INDEX_TYPE root_index)</span>
+<span class="lineNum">     143 </span>            : {
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 :   CMOCK_MEM_INDEX_TYPE index = root_index;</span>
+<span class="lineNum">     145 </span>            :   CMOCK_MEM_INDEX_TYPE next_index;
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 :   for (next_index = root_index;</span>
+<span class="lineNum">     148 </span>            :        next_index != CMOCK_GUTS_NONE;
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :        next_index = CMock_Guts_MemNext(index))</span>
+<span class="lineNum">     150 </span>            :   {
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :     index = next_index;</span>
+<span class="lineNum">     152 </span>            :   }
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :   return index;</span>
+<span class="lineNum">     155 </span>            : }
+<span class="lineNum">     156 </span>            : 
+<span class="lineNum">     157 </span>            : //-------------------------------------------------------
+<a name="158"><span class="lineNum">     158 </span>            : // CMock_GetAddressFor</a>
+<span class="lineNum">     159 </span>            : //-------------------------------------------------------
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 : void* CMock_Guts_GetAddressFor(CMOCK_MEM_INDEX_TYPE index)</span>
+<span class="lineNum">     161 </span>            : {
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :   if ((index &gt;= CMOCK_MEM_ALIGN_SIZE) &amp;&amp; (index &lt; CMock_Guts_FreePtr))</span>
+<span class="lineNum">     163 </span>            :   {
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :     return (void*)(&amp;CMock_Guts_Buffer[index]);</span>
+<span class="lineNum">     165 </span>            :   }
+<span class="lineNum">     166 </span>            :   else
+<span class="lineNum">     167 </span>            :   {
+<span class="lineNum">     168 </span><span class="lineNoCov">          0 :     return NULL;</span>
+<span class="lineNum">     169 </span>            :   }
+<span class="lineNum">     170 </span>            : }
+<span class="lineNum">     171 </span>            : 
+<span class="lineNum">     172 </span>            : //-------------------------------------------------------
+<a name="173"><span class="lineNum">     173 </span>            : // CMock_Guts_MemBytesFree</a>
+<span class="lineNum">     174 </span>            : //-------------------------------------------------------
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 : CMOCK_MEM_INDEX_TYPE CMock_Guts_MemBytesFree(void)</span>
+<span class="lineNum">     176 </span>            : {
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :   return CMock_Guts_BufferSize - CMock_Guts_FreePtr;</span>
+<span class="lineNum">     178 </span>            : }
+<span class="lineNum">     179 </span>            : 
+<span class="lineNum">     180 </span>            : //-------------------------------------------------------
+<a name="181"><span class="lineNum">     181 </span>            : // CMock_Guts_MemBytesUsed</a>
+<span class="lineNum">     182 </span>            : //-------------------------------------------------------
+<span class="lineNum">     183 </span><span class="lineNoCov">          0 : CMOCK_MEM_INDEX_TYPE CMock_Guts_MemBytesUsed(void)</span>
+<span class="lineNum">     184 </span>            : {
+<span class="lineNum">     185 </span><span class="lineNoCov">          0 :   return CMock_Guts_FreePtr - CMOCK_MEM_ALIGN_SIZE;</span>
+<span class="lineNum">     186 </span>            : }
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            : //-------------------------------------------------------
+<a name="189"><span class="lineNum">     189 </span>            : // CMock_Guts_MemFreeAll</a>
+<span class="lineNum">     190 </span>            : //-------------------------------------------------------
+<span class="lineNum">     191 </span><span class="lineNoCov">          0 : void CMock_Guts_MemFreeAll(void)</span>
+<span class="lineNum">     192 </span>            : {
+<span class="lineNum">     193 </span><span class="lineNoCov">          0 :   CMock_Guts_FreePtr = CMOCK_MEM_ALIGN_SIZE; //skip the very beginning</span>
+<span class="lineNum">     194 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span>            : //-------------------------------------------------------
+<a name="197"><span class="lineNum">     197 </span>            : // CMock_Guts_MemFreeFinal</a>
+<span class="lineNum">     198 </span>            : //-------------------------------------------------------
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 : void CMock_Guts_MemFreeFinal(void)</span>
+<span class="lineNum">     200 </span>            : {
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :   CMock_Guts_FreePtr = CMOCK_MEM_ALIGN_SIZE;</span>
+<span class="lineNum">     202 </span>            : #ifdef CMOCK_MEM_DYNAMIC
+<span class="lineNum">     203 </span>            :   if (CMock_Guts_Buffer)
+<span class="lineNum">     204 </span>            :   {
+<span class="lineNum">     205 </span>            :     free(CMock_Guts_Buffer);
+<span class="lineNum">     206 </span>            :     CMock_Guts_Buffer = NULL;
+<span class="lineNum">     207 </span>            :   }
+<span class="lineNum">     208 </span>            : #endif
+<span class="lineNum">     209 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     210 </span>            : 
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+FROM rodrigocsmprojel/docker-ceedling
+
+RUN apt-get update && apt-get install -y \
+    bison \
+    flex \
+    gperf \
+    lynx \
+    lcov
+
+ADD build.sh /opt/TestCov/
+ADD code-cov /opt/TestCov/code-cov
+ADD out1.json /opt/TestCov/
+ADD outd.txt /opt/TestCov/
+
+WORKDIR /opt/TestCov
+
+CMD /bin/bash build.sh -g
+

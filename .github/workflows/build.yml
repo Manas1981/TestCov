@@ -1,0 +1,45 @@
+# Build development firmware in response to pushes to master, or a pull request being created.
+
+name: Development-Firmware
+
+on:
+  push:
+    branches:
+     - '*'
+
+env:
+  COMMIT_SHA: ${{ github.sha }}
+  BUILD_ID: ${{ github.run_number }}
+  PROJECT_ID: ${{ github.workflow }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Create 4 parallel build jobs to build each of the 3 different apps, and also
+    # run the Ceedling tests.
+    strategy:
+      matrix:
+        bundle: [esp32-ceedling]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      # Use the shell to generate custom environment variables that cannot be
+      # natively configured in this YAML file
+      - name: Build or test development firmware
+        run: docker-compose --file docker/docker-compose.yml
+            up --build --exit-code-from ${{ matrix.bundle }} ${{ matrix.bundle }}
+
+      - name: Store code cov report
+        # TODO: use v2 release once it is available
+        uses: actions/upload-artifact@v2-preview
+        if: (endsWith(matrix.bundle, 'ceedling'))
+        env:
+          OUTPUT_DIR: docker/build/ceedling
+        with:
+          name: code-cov-report.tar.gz
+          path: ${{ env.OUTPUT_DIR }}/code-cov-report.tar.gz
+

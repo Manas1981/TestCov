@@ -1,0 +1,16 @@
+version: "3"
+
+# These docker containers will build the primary firmware applications and store
+# the built files in an output volume. Additionally, a tarball will be generated
+# containing the released binaries and some useful scripts that can be used to
+# flash the firmware on a linux-based system that doesn't have any other supporting
+# ESP-specific software installed (though it will have a dependency on pyserial).
+
+services:
+  esp32-ceedling:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.ceedling
+    volumes:
+     - ./build/ceedling:/opt/output
+
