@@ -42,6 +42,9 @@ jobs:
         with:
           name: code-cov-report.tar.gz
           path: ${{ env.OUTPUT_DIR }}/code-cov-report.tar.gz
+        with:
+          name: cov_out_file.txt
+          path: ${{ env.OUTPUT_DIR }}/cov_out_file.txt
 
       - name: Store code cov output txt
         # TODO: use v2 release once it is available
